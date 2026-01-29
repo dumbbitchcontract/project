@@ -41,6 +41,8 @@ async function main() {
     waitUntil: 'networkidle0',
   });
 
+  await page.waitForFunction('typeof window.setTime === "function"');
+
   // start ffmpeg
   const ffmpeg = spawn('ffmpeg', [
     '-y',
