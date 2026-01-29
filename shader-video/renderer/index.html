@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="./favicon.png"/>
+		<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+		html {
+			height: 100%;
+			background: #212529;
+		}
+
+		body {
+			min-height: 100%;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			/*visibility: hidden;*/
+			position: relative;
+			overflow: hidden;
+		}
+
+		main {
+			display: flex;
+			flex-flow: column nowrap;
+			position: relative;
+			width: 100%;
+		}
+
+		button {
+			width: 100%;
+			cursor: pointer;
+			padding: 1.25rem 1rem;
+			border: var(--secondary-color) 1.5px solid !important;
+			background: var(--primary-color) !important;
+			color: var(--secondary-color) !important;
+			border-radius: 0;
+			font-size: 1rem;
+
+		}
+
+		button.iframe {
+			display: none;
+		}
+
+		button:active, button.wallet-action {
+			background: var(--secondary-color);
+			color: var(--primary-color);
+			border: var(--primary-color) 1.5px solid;
+			cursor: wait;
+		}
+
+		button:disabled {
+			background: var(--secondary-color);
+			color: var(--primary-color);
+			border: var(--primary-color) 1.5px solid;
+			cursor: default;
+		}
+
+		div {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			opacity: 0.5;
+			margin: 1rem;
+			font-family: arial;
+			color: gray;
+		}
+
+		.loaded {
+			overflow: auto;
+			visibility: visible;
+		}
+
+		@media (min-width: 1024px) {
+			button {
+				font-size: 1.5rem;
+			}
+		}
+		</style>
+	</head>
+
+	<body>
+		<main>
+			<canvas></canvas>
+			<button></button>
+		</main>
+		<script type="module" src="./src/index.ts"></script>
+</html>
+

@@ -1,0 +1,11 @@
+{
+  "name": "shader-video",
+  "private": true,
+  "scripts": {
+    "capture": "node capture.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^22.0.0"
+  }
+}

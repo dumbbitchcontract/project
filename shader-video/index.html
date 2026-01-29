@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { margin: 0; padding: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<main></main>
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@1.170.0/build/three.module.js" } }
+
+	import {
+		getPixelRatio,
+		loadBitmap,
+		darkenColor,
+		Composer,
+		Renderer,
+		State
+	} from './utils/graphics';
+	import {
+		deriveSubstanceClass,
+		deriveSubstanceSeed,
+		parseParams,
+		encodeParams,
+		processColor,
+		processShape
+	} from './utils/metadata';
+</script>
+
+<script type="module">
+	const container = document.querySelector('main');
+  const pixelRatio = getPixelRatio();
+
+  let width = window.frameElement?.offsetWidth || container.offsetWidth;
+  let height = width;
+
+  const url = new URL(window.location);
+  const payload = url.searchParams.get('payload');
+  const canvas = document.querySelector('canvas');
+  const renderer = new Renderer(canvas, width, height);
+  const params = parseParams(payload);
+
+  const color = processColor(params.color);
+  const composerCanvas = document.createElement('canvas');
+  composerCanvas.width = width * pixelRatio;
+  composerCanvas.height = height * pixelRatio;
+  const composer = new Composer(composerCanvas);
+
+  const shapeURL = `shape/${params.shape}.png`;
+  const emblemURL = `emblem/${params.emblem}.png`;
+  const composerParams = processShape(params.shape);
+
+  const shape = await loadBitmap(shapeURL);
+  const emblem = await loadBitmap(emblemURL);
+
+  const substanceClass = deriveSubstanceClass(params.substance);
+  const seed = deriveSubstanceSeed(params.substance);
+
+  composer.compose({
+    shape,
+    emblem,
+    composerParams,
+    color
+  });
+  const image = composerCanvas;
+
+  renderer.setParams({
+    ...params,
+    substanceClass,
+    color,
+    image,
+    seed
+  });
+
+  renderer.render();
+  document.body.className = 'loaded';
+
+
+// expose setTime for the capture script
+window.setTime = (t) => {
+  material.uniforms.uTime.value = t;
+  renderer.render(scene, camera);
+};
+
+// initial render
+window.setTime(0);
+</script>
+</body>
+</html>
