@@ -36,6 +36,8 @@ async function main() {
   });
 
   const page = await browser.newPage();
+  page.on('console', (msg) => console.log(`[browser] ${msg.text()}`));
+  page.on('pageerror', (err) => console.error(`[browser error] ${err.message}`));
   await page.setViewport({ width: WIDTH, height: HEIGHT });
   await page.goto(`http://localhost:${port}/index.html?payload=${encodeURIComponent(payload)}`, {
     waitUntil: 'networkidle0',
